@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"errors"
-	"net"
 	"os"
 	"os/signal"
 	"syscall"
@@ -21,14 +20,23 @@ import (
 )
 
 const (
-	host = "localhost"
-	port = "23234"
+	host    = "0.0.0.0"
+	port    = "23234"
+	address = ":23234"
 )
 
 func main() {
+
+	hostKeyPath := os.Getenv("HOST_KEY_PATH")
+	if hostKeyPath == "" {
+		hostKeyPath = "/var/lib/biltongssh/host_ed25519"
+	}
+
 	s, err := wish.NewServer(
-		wish.WithAddress(net.JoinHostPort(host, port)),
-		wish.WithHostKeyPath(".ssh/id_ed25519"),
+		wish.WithAddress(address),
+		wish.WithHostKeyPath(hostKeyPath),
+		wish.WithIdleTimeout(15*time.Minute),
+		wish.WithMaxTimeout(1*time.Hour),
 		wish.WithMiddleware(
 			bubbletea.Middleware(teaHandler),
 			activeterm.Middleware(),
