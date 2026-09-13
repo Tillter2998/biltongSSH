@@ -95,6 +95,13 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Prepare lowercase image reference
+        id: image
+        env:
+          REPOSITORY: ${{ github.repository }}
+          DIGEST: ${{ steps.build.outputs.digest }}
+        run: echo "ref=ghcr.io/${REPOSITORY,,}@${DIGEST}" >> "$GITHUB_OUTPUT"
+
       - name: Configure SSH
         env:
           DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
@@ -116,4 +123,4 @@ jobs:
         run: |
           ssh -i "$HOME/.ssh/deploy_key" -o StrictHostKeyChecking=yes \
             "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" \
-            "chmod 700 /srv/biltongssh/deploy.sh && /srv/biltongssh/deploy.sh '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}'"
+            "chmod 700 /srv/biltongssh/deploy.sh && /srv/biltongssh/deploy.sh '${{ steps.image.outputs.ref }}'"
