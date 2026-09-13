@@ -1,0 +1,18 @@
+services:
+  biltongssh:
+    image: ${IMAGE:?IMAGE must be set}
+    container_name: biltongssh
+    restart: unless-stopped
+    ports:
+      - "23234:23234"
+    environment:
+      HOST_KEY_PATH: /etc/biltongssh/host_ed25519
+    volumes:
+      - /srv/biltongssh/host-keys:/etc/biltongssh:ro
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
