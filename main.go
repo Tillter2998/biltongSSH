@@ -29,7 +29,7 @@ func main() {
 
 	hostKeyPath := os.Getenv("HOST_KEY_PATH")
 	if hostKeyPath == "" {
-		hostKeyPath = "/var/lib/biltongssh/host_ed25519"
+		hostKeyPath = "/etc/biltongssh/host_ed25519"
 	}
 
 	s, err := wish.NewServer(
@@ -45,6 +45,7 @@ func main() {
 	)
 	if err != nil {
 		log.Error("Could not start server", "error", err)
+		return
 	}
 
 	done := make(chan os.Signal, 1)
