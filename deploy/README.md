@@ -36,6 +36,6 @@ secrets to it:
 - `DEPLOY_KNOWN_HOSTS`: verified `known_hosts` entry for the server
 
 The workflow tests pull requests, publishes a commit-addressed image to GHCR,
-and deploys only after a successful push to `main`. The server-side script
+and deploys only after a successful push to `master`. The server-side script
 deploys by digest and rolls back to the previous image if the new container
 does not become reachable on port `23234`.
