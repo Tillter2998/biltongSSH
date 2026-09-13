@@ -1,2 +1,46 @@
 .secrets
 
+# Go
+*.exe
+*.exe~
+*.test
+*.out
+/bin/
+/vendor/
+coverage.out
+coverage.html
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+.ssh/
+
+# Docker
+.docker/
+docker-compose.override.yml
+docker-compose.override.yaml
+
+# Kubernetes
+.kube/
+kubeconfig
+kubeconfig.*
+*.kubeconfig
+*.secret.yaml
+*.secret.yml
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
